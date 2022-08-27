@@ -200,7 +200,303 @@ insert into <tableName>[(args1)] values(args2);
 
 # 二、 删除数据
 
+## 语法
 
+```mysql
+delete from <tableName> [where <conditions>];
+```
+
+- tableName 为需要操作的表格
+- where 为关键字
+- conditions 为数据符合的条件
+- 当where 不填写时为删除表中**所有数据**
+
+## 示例一
+
+- 删除students表中学号(stu_num)为20220104的学生
+
+    命令如下
+
+    ```mysql
+    delete from students where stu_num='20220104';
+    ```
+
+    
+
+- 执行效果
+
+    ```mysql
+    mysql> delete from students where stu_num='20220104';
+    Query OK, 1 row affected (0.00 sec)
+    
+    mysql> select * from students;   // 查询表中数据
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | 12345678912 |
+    | 20220102 | 李四     | 男         |      22 | 12345678913 | NULL        |
+    | 20220103 | 王五     | 男         |      21 | 12345678914 | 12345678    |
+    +----------+----------+------------+---------+-------------+-------------+
+    3 rows in set (0.00 sec)
+    
+    mysql>
+    ```
+
+    可以看到学号为20220104一行已被移除
+
+    
+
+## 示例二
+
+- 删除students表中学号为年龄大于20的学生
+
+    命令如下
+
+    ```mysql
+    delete from students where stu_age>20;
+    ```
+
+    
+
+- 执行效果
+
+    ```mysql
+    mysql> delete from students where stu_age>20;
+    Query OK, 2 rows affected (0.00 sec)
+    
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | 12345678912 |
+    +----------+----------+------------+---------+-------------+-------------+
+    1 row in set (0.00 sec)
+    
+    mysql>
+    ```
+
+    可以看到只有一行数据
+
+
+
+## 示例三
+
+- 删除students表中所有数据
+
+    命令如下
+
+    ```mysql
+    delete from students;
+    ```
+
+    
+
+- 执行效果
+
+    ```mysql
+    mysql> delete from students;
+    Query OK, 1 row affected (0.00 sec)
+    
+    mysql> select * from students;
+    Empty set (0.00 sec)
+    
+    mysql>
+    ```
+
+    可以看到表为空
 
 # 三、修改数据
+
+## 语法
+
+```mysql
+update <tableName> set <conditions> [where <conditions>]; 
+```
+
+- update 和 set为sql关键字
+
+## 示例一
+
+- 将students表中学号为20220101的学生姓名更改为张三
+
+    命令如下
+
+    ```mysql
+    update students set stu_name='张三' where stu_num='20220101'; 
+    ```
+
+-  执行效果
+
+    ```mysql
+    // 首先添加一位学生数据
+    mysql> insert into students(stu_num, stu_name, stu_gender, stu_age, stu_tel, stu_qq) 
+        -> values('20220101', '老六', '男', 20,'12345678912', '12345678912');
+    Query OK, 1 row affected (0.00 sec)
+    
+    // 查看修改操作前数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 老六     | 男         |      20 | 12345678912 | 12345678912 |
+    +----------+----------+------------+---------+-------------+-------------+
+    1 row in set (0.00 sec)
+    
+    // 修改操作
+    mysql> update students set stu_name='张三' where stu_num='20220101';
+    Query OK, 1 row affected (0.00 sec)
+    Rows matched: 1  Changed: 1  Warnings: 0
+    
+    // 查看修改后数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | 12345678912 |
+    +----------+----------+------------+---------+-------------+-------------+
+    1 row in set (0.00 sec)
+    
+    mysql>
+    ```
+
+    20220101的学生姓名从老六变为张三了
+
+
+
+## 示例二
+
+- 将students表中学号为20220101的学生QQ设为123456，电话设为12345678910
+
+    命令如下
+
+    ```mysql
+    update students set stu_qq='123456', stu_tel='12345678910' where stu_num='20220101'; 
+    ```
+
+-  执行效果
+
+    ```mysql
+    // 查看修改前数据表
+    
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | 12345678912 |
+    +----------+----------+------------+---------+-------------+-------------+
+    1 row in set (0.00 sec)
+    
+    // 修改操作
+    mysql> update students set stu_qq='123456', stu_tel='12345678910' where stu_num='20220101';
+    Query OK, 1 row affected (0.00 sec)
+    Rows matched: 1  Changed: 1  Warnings: 0
+    
+    // 查看修改后数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+--------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq |
+    +----------+----------+------------+---------+-------------+--------+
+    | 20220101 | 张三     | 男         |      20 | 12345678910 | 123456 |
+    +----------+----------+------------+---------+-------------+--------+
+    1 row in set (0.00 sec)
+    
+    mysql>
+    ```
+
+    成功修改
+
+
+
+## 示例三
+
+- 根据主键(primary key)修改其它列
+
+    命令如下
+
+    ```mysql
+    update students set stu_name='老六', stu_gender='女', stu_age=18, stu_tel=12345678910, stu_qq='123456'
+    where stu_num='20220101'; 
+    ```
+
+-  执行效果
+
+    ```mysql
+    // 查看修改前数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+--------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq |
+    +----------+----------+------------+---------+-------------+--------+
+    | 20220101 | 张三     | 男         |      20 | 12345678910 | 123456 |
+    +----------+----------+------------+---------+-------------+--------+
+    1 row in set (0.00 sec)
+    
+    // 修改操作
+    mysql> update students set stu_name='老六', stu_gender='女', stu_age=18, stu_tel=12345678910, stu_qq='123456'
+        -> where stu_num='20220101';
+    Query OK, 1 row affected (0.00 sec)
+    Rows matched: 1  Changed: 1  Warnings: 0
+    
+    // 查看修改后的数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+--------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq |
+    +----------+----------+------------+---------+-------------+--------+
+    | 20220101 | 老六     | 女         |      18 | 12345678910 | 123456 |
+    +----------+----------+------------+---------+-------------+--------+
+    1 row in set (0.00 sec)
+    
+    mysql>
+    ```
+
+    老六又回来了
+
+    
+
+## 示例四
+
+- 将students表中所有人的qq改为null
+
+    命令如下
+
+    ```mysql
+    update students set stu_qq=null; 
+    ```
+
+-  执行效果
+
+    ```mysql
+    // 修改前数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | 12345678912 |
+    | 20220102 | 李四     | 男         |      22 | 12345678913 | NULL        |
+    | 20220103 | 王五     | 男         |      21 | 12345678914 | 12345678    |
+    +----------+----------+------------+---------+-------------+-------------+
+    3 row in set (0.00 sec)
+    
+    // 修改操作
+    mysql> update students set stu_qq=null;
+    Query OK, 1 row affected (0.00 sec)
+    Rows matched: 2  Changed: 2  Warnings: 0
+    
+    // 修改后数据表
+    mysql> select * from students;
+    +----------+----------+------------+---------+-------------+-------------+
+    | stu_num  | stu_name | stu_gender | stu_age | stu_tel     | stu_qq      |
+    +----------+----------+------------+---------+-------------+-------------+
+    | 20220101 | 张三     | 男         |      20 | 12345678912 | NULL        |
+    | 20220102 | 李四     | 男         |      22 | 12345678913 | NULL        |
+    | 20220103 | 王五     | 男         |      21 | 12345678914 | NULL        |
+    +----------+----------+------------+---------+-------------+-------------+
+    3 row in set (0.00 sec)
+    
+    mysql>
+    
+    ```
+
+    
+
+
 
