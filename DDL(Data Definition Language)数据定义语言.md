@@ -82,7 +82,7 @@ create table <tableName>(<arg1>, <arg2>, ....);
     stu_name varchar(20) not null,
     stu_gender char(2) not nunll,
     stu_age int not null,
-    stu_tel char(11) not null uniquem,
+    stu_tel char(11) not null unique,
     stu_qq varchar(11) unique
     );
     ```
@@ -132,7 +132,7 @@ desc <tableName>;
 ## 4. 删除数据表
 
 ```mysql
-drop table <tableName>
+drop table <tableName>;
 ```
 
 
@@ -175,6 +175,8 @@ alter table <tableName> add <columnName> <type>;
 
     
 
+    
+    
     #### 5.3.2 修改数据表字段(列)名和类型
 
 ```mysql
@@ -189,11 +191,15 @@ alter table <tableName> change <oldColumnName> <newColumnName> <type>;
     alter table students change stu_addr stu_address text; 
     ```
 
+
+
 #### 5.3.3 只修改数据表字段(列)类型
 
 ```mysql
 alter table <tableName> modify <columnName> <newType>;
 ```
+
+
 
 5.3.4 删除数据表字段(列)
 
