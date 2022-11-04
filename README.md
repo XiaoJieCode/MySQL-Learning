@@ -4,7 +4,7 @@
 
 阅读顺序：
 
-1. 什么是MySQL
+1. # 什么是MySQL
 2. MySQL登录
 3. 启动及关闭MySQL服务
 4. DDL
